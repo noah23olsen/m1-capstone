@@ -3,10 +3,35 @@ package com.techelevator;
 public abstract class CandyItem { //should abstract because candy does not mean anything if it does not have items
     private String name;
     private double price;
-    private  boolean isIndividuallyWrapped = false;
+    private String id;
+    private int MAX_VALUE = 100;
+    private int quantity = MAX_VALUE;
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getIsIndividuallyWrapped() {
+        return isIndividuallyWrapped;
+    }
+
+    private String isIndividuallyWrapped;
+
+
 
     public abstract String getCandyType ();
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -24,11 +49,11 @@ public abstract class CandyItem { //should abstract because candy does not mean 
         this.price = price;
     }
 
-    public boolean isIndividuallyWrapped() {
+    public String isIndividuallyWrapped() {
         return isIndividuallyWrapped;
     }
 
-    public void setIndividuallyWrapped(boolean individuallyWrapped) {
+    public void setIndividuallyWrapped(String individuallyWrapped) {
         isIndividuallyWrapped = individuallyWrapped;
     }
 }

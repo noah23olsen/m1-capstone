@@ -2,6 +2,9 @@ package com.techelevator;
 
 import com.techelevator.view.Menu;
 
+import java.io.FileNotFoundException;
+import java.util.Map;
+
 /*
  * This class should control the workflow of the application, but not do any other work
  *
@@ -32,18 +35,24 @@ public class ApplicationCLI {
      */
     public void run() {
 
-        menu.showWelcomeMessage();
-
-
         while (true) {
 
 
             String inventoryFileName = menu.getInventoryFileFromUser();
             try {
-
-
+                candyTest = new CandyStore(inventoryFileName);
+                break;
+            } catch (FileNotFoundException e) {
+                menu.tellUserFileNotFound();
             }
 
+        }
+        menu.showWelcomeMessage();
+
+        while (true) {
+            if (menu.getUserChoiceFromMenu().equals("1")) {
+                showItem();
+            }else menu.invalidSelection();
         }
 
 			/*
@@ -57,8 +66,8 @@ public class ApplicationCLI {
 			ELSE IF the User's Choice is Quit
 				THEN break the loop so the application stops
 			*/
-        }
     }
+
 
     /*
      * This starts the application, but you shouldn't need to change it.
@@ -70,4 +79,11 @@ public class ApplicationCLI {
 
 
     }
+
+    public void showItem() {
+        Map<String, CandyItem> inventory = candyTest.getInventory();
+        menu.displayInventory(inventory);
+    }
+
+
 }

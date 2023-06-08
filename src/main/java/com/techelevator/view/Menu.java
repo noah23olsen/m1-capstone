@@ -1,5 +1,8 @@
 package com.techelevator.view;
 
+import com.techelevator.CandyItem;
+
+import java.util.Map;
 import java.util.Scanner;
 
 /*
@@ -23,24 +26,41 @@ public class Menu {
 
 
 
-		System.out.println("Please select from the following options: ");
-		System.out.println("(1) Show Inventory");
-		System.out.println("(2) Make Sale");
-		System.out.println("(3) Quit");
-
-		String userInput = in.nextLine();  ///allows us to get user input
-
-		if (userInput == "1"){
-
-		}
+        ///allows us to get user input
 
 
     }
+    public String getUserChoiceFromMenu() {
+        System.out.println("Please select from the following options: ");
+        System.out.println("(1) Show Inventory");  //___> current status
+        System.out.println("(2) Make Sale");
+        System.out.println("(3) Quit");
+        return in.nextLine();
+    }
+    public void invalidSelection(){
+        System.out.println("Invalid selection");
+    }
+
+
     public String getInventoryFileFromUser() {
 
         System.out.println("Enter an inventory file");
 
         return in.nextLine();
+    }
+
+    public void tellUserFileNotFound() {
+        System.out.println("this file was not found");
+    }
+
+    public void displayInventory(Map<String, CandyItem> inventory) {
+        for (Map.Entry<String, CandyItem> entry : inventory.entrySet()) {
+            System.out.printf("%1s : %1s : $%1.2f %n", entry.getKey(),
+                    entry.getValue().getName(), entry.getValue().getPrice());
+
+
+        }
+
     }
 }
 
