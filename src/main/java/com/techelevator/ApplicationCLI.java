@@ -4,37 +4,48 @@ import com.techelevator.view.Menu;
 
 /*
  * This class should control the workflow of the application, but not do any other work
- * 
+ *
  * The menu class should communicate with the user, but do no other work
- * 
+ *
  * This class should control the logical workflow of the application, but it should do no other
  * work.  It should communicate with the user (System.in and System.out) using the Menu class and ask
  * the CandyStore class to do any work and pass the results between those 2 classes.
  */
 public class ApplicationCLI {
+    private CandyStore candyTest;
 
-	/*
-	 * The menu class is instantiated in the main() method at the bottom of this file.  
-	 * It is the only class instantiated in the starter code.  
-	 * You will need to instantiate all other classes using the new keyword before you can use them.
-	 * 
-	 * Remember every class and data structure is a data types and can be passed as arguments to methods or constructors.
-	 */
-	private Menu menu;
+    /*
+     * The menu class is instantiated in the main() method at the bottom of this file.
+     * It is the only class instantiated in the starter code.
+     * You will need to instantiate all other classes using the new keyword before you can use them.
+     *
+     * Remember every class and data structure is a data types and can be passed as arguments to methods or constructors.
+     */
+    private Menu menu;
 
-	public ApplicationCLI(Menu menu) {
-		this.menu = menu;
-	}
+    public ApplicationCLI(Menu menu) {
+        this.menu = menu;
+    }
 
-	/*
-	 * Your application starts here
-	 */
-	public void run() {
+    /*
+     * Your application starts here
+     */
+    public void run() {
 
-		menu.showWelcomeMessage();
+        menu.showWelcomeMessage();
 
 
-		while (true) {
+        while (true) {
+
+
+            String inventoryFileName = menu.getInventoryFileFromUser();
+            try {
+
+
+            }
+
+        }
+
 			/*
 			Display the Starting Menu and get the users choice.
 			Remember all uses of System.out and System.in should be in the menu
@@ -46,15 +57,17 @@ public class ApplicationCLI {
 			ELSE IF the User's Choice is Quit
 				THEN break the loop so the application stops
 			*/
-		}
-	}
+        }
+    }
 
-	/*
-	 * This starts the application, but you shouldn't need to change it.  
-	 */
-	public static void main(String[] args) {
-		Menu menu = new Menu();
-		ApplicationCLI cli = new ApplicationCLI(menu);
-		cli.run();
-	}
+    /*
+     * This starts the application, but you shouldn't need to change it.
+     */
+    public static void main(String[] args) {
+        Menu menu = new Menu();
+        ApplicationCLI cli = new ApplicationCLI(menu);
+        cli.run();
+
+
+    }
 }
