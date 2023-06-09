@@ -1,6 +1,7 @@
 package com.techelevator.view;
 
 import com.techelevator.CandyItem;
+import com.techelevator.Customer;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -13,7 +14,7 @@ import java.util.Scanner;
  * Work to get input from the user or display output to the user should be done in this class, however, it
  * should include no "work" that is the job of the candy store.
  */
-public class Menu {
+public class Menu extends Customer {
 
     private static final Scanner in = new Scanner(System.in);
 
@@ -30,6 +31,7 @@ public class Menu {
 
 
     }
+
     public String getUserChoiceFromMenu() {
         System.out.println("Please select from the following options: ");
         System.out.println("(1) Show Inventory");  //___> current status
@@ -39,6 +41,19 @@ public class Menu {
     }
     public void invalidSelection(){
         System.out.println("Invalid selection");
+    }
+    public String showSaleMenu(){
+        System.out.println("(1) Take Money");
+        System.out.println("(2) Select Products");
+        System.out.println("(3) Complete Sale");
+        System.out.println("Current Customer Balance: " + getCurrentCustomerBalance());
+         return in.nextLine();
+
+
+    }
+    public String promtUserAnAMountToDeposit(){
+        System.out.println("Please enter an amount to deposit in the account");
+        return in.nextLine();
     }
 
 
@@ -54,12 +69,16 @@ public class Menu {
     }
 
     public void displayInventory(Map<String, CandyItem> inventory) {
+
+        System.out.printf("%-13s %-18s %-13s  %-13s %-13s\n", "ID", "Name", "Wrapper", "Qty", "Price");
+        System.out.println();
         for (Map.Entry<String, CandyItem> entry : inventory.entrySet()) {
-            System.out.printf("%1s : %1s : $%1.2f %n", entry.getKey(),
-                    entry.getValue().getName(), entry.getValue().getPrice());
+            System.out.printf("%-13s %-18s %-13s  %-13s %-13s\n", entry.getKey(),
+                    entry.getValue().getName(), entry.getValue().getIsIndividuallyWrapped(),entry.getValue().getQuantity(), entry.getValue().getPrice());
 
 
         }
+
 
     }
 }

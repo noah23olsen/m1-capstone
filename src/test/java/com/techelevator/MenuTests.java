@@ -17,8 +17,10 @@ public class MenuTests {
     @Test
     public void test_if_user_selection_is_invalid () {
 
-       String testingVal = target.getUserChoiceFromMenu();
-       Assert.assertEquals("a",testingVal,1);
+        String testingVal = target.getUserChoiceFromMenu();
+        Assert.assertEquals("a",testingVal,1);
 
     }
+
+
 }

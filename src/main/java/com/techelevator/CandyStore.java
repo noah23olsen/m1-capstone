@@ -25,5 +25,4 @@ public class CandyStore {
         return this.inventory;
     }
 
-
 }

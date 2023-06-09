@@ -18,7 +18,7 @@ public class InventoryFileReader {
     }
 
     public Map<String, CandyItem> loadInventory() throws FileNotFoundException {
-        Map<String, CandyItem> inventory = new LinkedHashMap<>();
+        Map<String, CandyItem> inventory = new TreeMap<>();
         File inventoryFile = new File(inventoryFileName);
 
         try (Scanner fileScanner = new Scanner(inventoryFile)) {
@@ -53,9 +53,13 @@ public class InventoryFileReader {
             item = new Sours();
         }
 
+        if (isIndividuallyWrapped.equals("T")){
+            item.setIndividuallyWrapped("Y");
+        }else item.setIndividuallyWrapped("N");
+
         item.setId(id);
         item.setName(name);
-        item.setIndividuallyWrapped(isIndividuallyWrapped);
+
         item.setPrice(price);
 
         return item;
