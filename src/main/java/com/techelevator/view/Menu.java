@@ -14,7 +14,7 @@ import java.util.Scanner;
  * Work to get input from the user or display output to the user should be done in this class, however, it
  * should include no "work" that is the job of the candy store.
  */
-public class Menu extends Customer {
+public class Menu {
 
     private static final Scanner in = new Scanner(System.in);
 
@@ -42,11 +42,11 @@ public class Menu extends Customer {
     public void invalidSelection(){
         System.out.println("Invalid selection");
     }
-    public String showSaleMenu(){
+    public String showSaleMenu(double balance){
         System.out.println("(1) Take Money");
         System.out.println("(2) Select Products");
         System.out.println("(3) Complete Sale");
-        System.out.println("Current Customer Balance: " + getCurrentCustomerBalance());
+        System.out.println("Current Customer Balance: " + balance  );
          return in.nextLine();
 
 
@@ -60,8 +60,9 @@ public class Menu extends Customer {
     public String getInventoryFileFromUser() {
 
         System.out.println("Enter an inventory file");
-
-        return in.nextLine();
+//TODO TESTING REMOVE LATE R
+        //return in.nextLine();
+        return "inventory.csv";
     }
 
     public void tellUserFileNotFound() {

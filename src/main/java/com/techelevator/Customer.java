@@ -8,7 +8,7 @@ public class Customer {
 
     private double maxToDeposit = 100.00;
     private double starting_Balance = 0.00;
-    private double currentCustomerBalance = 0.00; //it will get re-asigned as the if conditions take effect
+    private double currentCustomerBalance = starting_Balance; //it will get re-asigned as the if conditions take effect
 
     //throw an error if amount to balance + deposit amount >10000
     //no invalid amount (-1);
@@ -16,7 +16,6 @@ public class Customer {
     public double getMax_Amount() {
         return max_Amount;
     }
-
     public void setMax_Amount(double max_Amount) {
         this.max_Amount = max_Amount;
     }
@@ -45,15 +44,22 @@ public class Customer {
         this.currentCustomerBalance = currentCustomerBalance;
     }
 
+
+
+
+
     public double depositMoney(int depositAmount) {
-        if (currentCustomerBalance + depositAmount >= starting_Balance
-                && currentCustomerBalance + depositAmount <= max_Amount
-                && depositAmount <= maxToDeposit) {
-            currentCustomerBalance = currentCustomerBalance + depositAmount;
+        if (depositAmount>0) {
+            if (currentCustomerBalance + depositAmount >= starting_Balance
+                    && currentCustomerBalance + depositAmount <= max_Amount
+                    && depositAmount <= maxToDeposit) {
+                currentCustomerBalance = currentCustomerBalance + depositAmount;
+                return currentCustomerBalance;
+            }
         }
 
 
-        return depositAmount;
+        return currentCustomerBalance;
     }
 
 }

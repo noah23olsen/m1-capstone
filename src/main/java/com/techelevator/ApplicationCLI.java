@@ -14,7 +14,9 @@ import java.util.Map;
  * work.  It should communicate with the user (System.in and System.out) using the Menu class and ask
  * the CandyStore class to do any work and pass the results between those 2 classes.
  */
-public class ApplicationCLI extends Customer{
+public class ApplicationCLI{
+
+    Customer newCustomer = new Customer();
     private CandyStore candyTest;
 
     /*
@@ -53,26 +55,27 @@ public class ApplicationCLI extends Customer{
             String userchoice = menu.getUserChoiceFromMenu();
             if (userchoice.equals("1")) {
                 showItem();
-            }
-            else if (userchoice.equals("2")) {  //2 -->  make sale
-                menu.showSaleMenu();
+
+            } else if (userchoice.equals("2")) {  //2 -->  make sale
+
                 //get input from sale menu
                 //if input from sale menu is 1,
                 //prompt user to deposit money
-                String userChoiceForSale = menu.showSaleMenu();//we want it to be 1, 2, or 3, otherwise return exception
-                //we can make exception later
-                if (userChoiceForSale.equals("1")){   // take money
-                    //takes the amount the user wants to deposit, and assigns it to an amt as string
-                    String amountAsString = menu.promtUserAnAMountToDeposit();
-                    //takes amt as string, parses to an integer
-                    int amountAsIntegeer  = Integer.parseInt(amountAsString);
-                    //once the value is an intger, we call the deposit method on it
-                    depositMoney(amountAsIntegeer);
-                    // changing user input and store it as a sting and set it as int
+                while(true) {
+                    String userChoiceForSale = menu.showSaleMenu(newCustomer.getCurrentCustomerBalance());//we want it to be 1, 2, or 3, otherwise return exception
+                    //we can make exception later
+                    if (userChoiceForSale.equals("1")) {   // take money
+                        //takes the amount the user wants to deposit, and assigns it to an amt as string
+                        String amountAsString = menu.promtUserAnAMountToDeposit();
+                        //takes amt as string, parses to an integer
+                        int amountAsIntegeer = Integer.parseInt(amountAsString);
+                        //once the value is an intger, we call the deposit method on it
+                        newCustomer.depositMoney(amountAsIntegeer);
+                        // changing user input and store it as a sting and set it as int
+                    }
                 }
-
             }else menu.invalidSelection();
-
+}
         }
 
 
@@ -87,7 +90,7 @@ public class ApplicationCLI extends Customer{
 			ELSE IF the User's Choice is Quit
 				THEN break the loop so the application stops
 			*/
-    }
+
 
 
     /*
@@ -98,13 +101,11 @@ public class ApplicationCLI extends Customer{
         ApplicationCLI cli = new ApplicationCLI(menu);
         cli.run();
 
-
     }
 
     public void showItem() {
         Map<String, CandyItem> inventory = candyTest.getInventory();
         menu.displayInventory(inventory);
     }
-
 
 }
