@@ -5,6 +5,7 @@ import com.techelevator.view.Menu;
 import java.io.FileNotFoundException;
 import java.util.Map;
 
+
 /*
  * This class should control the workflow of the application, but not do any other work
  *
@@ -14,10 +15,13 @@ import java.util.Map;
  * work.  It should communicate with the user (System.in and System.out) using the Menu class and ask
  * the CandyStore class to do any work and pass the results between those 2 classes.
  */
-public class ApplicationCLI{
+public class ApplicationCLI {
 
-    Customer newCustomer = new Customer();
+    CashRegister newCashRegister = new CashRegister();
     private CandyStore candyTest;
+    private String name;
+    private int age;
+
 
     /*
      * The menu class is instantiated in the main() method at the bottom of this file.
@@ -54,29 +58,14 @@ public class ApplicationCLI{
         while (true) {
             String userchoice = menu.getUserChoiceFromMenu();
             if (userchoice.equals("1")) {
-                showItem();
+                showInventory();
 
             } else if (userchoice.equals("2")) {  //2 -->  make sale
-
-                //get input from sale menu
-                //if input from sale menu is 1,
-                //prompt user to deposit money
-                while(true) {
-                    String userChoiceForSale = menu.showSaleMenu(newCustomer.getCurrentCustomerBalance());//we want it to be 1, 2, or 3, otherwise return exception
-                    //we can make exception later
-                    if (userChoiceForSale.equals("1")) {   // take money
-                        //takes the amount the user wants to deposit, and assigns it to an amt as string
-                        String amountAsString = menu.promtUserAnAMountToDeposit();
-                        //takes amt as string, parses to an integer
-                        int amountAsIntegeer = Integer.parseInt(amountAsString);
-                        //once the value is an intger, we call the deposit method on it
-                        newCustomer.depositMoney(amountAsIntegeer);
-                        // changing user input and store it as a sting and set it as int
-                    }
-                }
-            }else menu.invalidSelection();
-}
+                //shows user and shows the sale menu
+                condensedSaleMenu();
+            } else menu.invalidSelection();
         }
+    }
 
 
 			/*
@@ -96,16 +85,81 @@ public class ApplicationCLI{
     /*
      * This starts the application, but you shouldn't need to change it.
      */
-    public static void main(String[] args) {
-        Menu menu = new Menu();
-        ApplicationCLI cli = new ApplicationCLI(menu);
-        cli.run();
 
+
+    public void condensedSaleMenu() {
+        while (true) {
+            String userChoiceForSale = menu.showSaleMenu(newCashRegister.getCurrentCashRegisterBalance());//we want it to be 1, 2, or 3, otherwise return exception
+            //we can make exception later
+            if (userChoiceForSale.equals("1")) {   // take money
+                //takes the amount the user wants to deposit, and assigns it to an amt as string
+                userSelectedOneForMakeSaleMenu();
+                ;
+                // changing user input and store it as a sting and set it as int
+            } else if (userChoiceForSale.equals("2")) {
+                userSelectTwoForMakeSaleMenu();
+            }
+        }
     }
 
-    public void showItem() {
-        Map<String, CandyItem> inventory = candyTest.getInventory();
-        menu.displayInventory(inventory);
+    public void userSelectedOneForMakeSaleMenu() {
+        String amountAsString = menu.promtUserAnAMountToDeposit();
+        //takes amt as string, parses to an integer
+        int amountAsIntegeer = Integer.parseInt(amountAsString);
+        //once the value is an intger, we call the deposit method on it
+        try {
+            newCashRegister.depositMoney(amountAsIntegeer);
+        } catch (InvalidDepositException e) {
+            menu.depositAmountInvalid();
+        }
     }
 
-}
+    public void userSelectTwoForMakeSaleMenu(){
+        showInventory();
+        String idUserEntered = menu.promptUserToEnterAnId().toUpperCase();
+
+        int getQuantityOfKey  = candyTest.getInventory().get(idUserEntered).getQuantity();
+
+        if (candyTest.getInventory().containsKey(idUserEntered)) {
+            menu.tellUserItemWasAvailable();
+
+            int userQuantity  = Integer.parseInt(menu.promptUserToEnterAQuantity());
+            boolean userCanGetQuantity = getQuantityOfKey-userQuantity > 0;
+
+                if (getQuantityOfKey == 0) {
+                    menu.quantityIsSoldOut();
+            }
+                else if (getQuantityOfKey - userQuantity < 0) {
+                    menu.insufficientStock();
+                }
+             //if all else true, now we need to check the balance
+                //if usercangetquantity && the key is true(bc its in the if statement)
+                else if(userCanGetQuantity){
+                    if(newCashRegister.getCurrentCashRegisterBalance() > getQuantityOfKey * candyTest.getInventory().get(idUserEntered).getPrice()) {
+                        //we need to update the cash balance
+//                        newCashRegister.getCurrentCashRegisterBalance() = getQuantityOfKey * candyTest.getInventory().get(idUserEntered).getPrice();
+
+                        candyTest.getInventory().get(idUserEntered).setQuantity(getQuantityOfKey - userQuantity);
+                    }
+            }
+
+        } else
+            menu.tellUserItemWasNotAvailable();
+        //if (id exists as the inventory key)
+        //id in the inventory map is stored as the key
+        //quantity is stored in the inventory map as ivnetnory.getvalue(which is i think inventory.getCandyItem.getQuantity
+    }
+        public static void main (String[]args){
+            Menu menu = new Menu();
+            ApplicationCLI cli = new ApplicationCLI(menu);
+            cli.run();
+
+        }
+
+        public void showInventory () {
+            Map<String, CandyItem> inventory = candyTest.getInventory();
+            menu.displayInventory(inventory);
+        }
+
+
+    }

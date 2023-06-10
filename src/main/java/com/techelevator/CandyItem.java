@@ -4,8 +4,8 @@ public abstract class CandyItem { //should abstract because candy does not mean 
     private String name;
     private double price;
     private String id;
-    private int MAX_VALUE = 100;
-    private int quantity = MAX_VALUE;
+
+    private int quantity = 25;
 
     public int getQuantity() {
         return quantity;
@@ -20,6 +20,7 @@ public abstract class CandyItem { //should abstract because candy does not mean 
     }
 
     private String isIndividuallyWrapped;
+
 
 
 
