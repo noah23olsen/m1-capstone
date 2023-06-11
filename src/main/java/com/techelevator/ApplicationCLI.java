@@ -1,5 +1,6 @@
 package com.techelevator;
 
+import com.techelevator.items.ShoppingCartItem;
 import com.techelevator.view.Menu;
 
 import java.io.FileNotFoundException;
@@ -18,9 +19,9 @@ import java.util.Map;
 public class ApplicationCLI {
 
     CashRegister newCashRegister = new CashRegister();
-    private CandyStore candyTest;
-    private String name;
-    private int age;
+    private CandyStore candyStoreInstance;
+    private ShoppingCartItem shoppingCartItem = new ShoppingCartItem();
+
 
 
     /*
@@ -46,7 +47,7 @@ public class ApplicationCLI {
 
             String inventoryFileName = menu.getInventoryFileFromUser();
             try {
-                candyTest = new CandyStore(inventoryFileName);
+                candyStoreInstance = new CandyStore(inventoryFileName);
                 break;
             } catch (FileNotFoundException e) {
                 menu.tellUserFileNotFound();
@@ -116,30 +117,39 @@ public class ApplicationCLI {
 
     public void userSelectTwoForMakeSaleMenu(){
         showInventory();
+
         String idUserEntered = menu.promptUserToEnterAnId().toUpperCase();
 
-        int getQuantityOfKey  = candyTest.getInventory().get(idUserEntered).getQuantity();
+        int getQuantityOfKey  = candyStoreInstance.getInventory().get(idUserEntered).getQuantity();
 
-        if (candyTest.getInventory().containsKey(idUserEntered)) {
+        if (candyStoreInstance.getInventory().containsKey(idUserEntered)) {
             menu.tellUserItemWasAvailable();
 
             int userQuantity  = Integer.parseInt(menu.promptUserToEnterAQuantity());
-            boolean userCanGetQuantity = getQuantityOfKey-userQuantity > 0;
+            boolean userCanGetQuantity = getQuantityOfKey-userQuantity >= 0;
 
                 if (getQuantityOfKey == 0) {
                     menu.quantityIsSoldOut();
             }
+                else if (userQuantity < 0) {
+                    menu.insufficientStock();
+                }
                 else if (getQuantityOfKey - userQuantity < 0) {
                     menu.insufficientStock();
                 }
              //if all else true, now we need to check the balance
                 //if usercangetquantity && the key is true(bc its in the if statement)
                 else if(userCanGetQuantity){
-                    if(newCashRegister.getCurrentCashRegisterBalance() > getQuantityOfKey * candyTest.getInventory().get(idUserEntered).getPrice()) {
+                    if(newCashRegister.getCurrentCashRegisterBalance() >= getQuantityOfKey * candyStoreInstance.getInventory().get(idUserEntered).getPrice()) {
                         //we need to update the cash balance
-//                        newCashRegister.getCurrentCashRegisterBalance() = getQuantityOfKey * candyTest.getInventory().get(idUserEntered).getPrice();
+                 double updatingBalance= newCashRegister.getCurrentCashRegisterBalance() - userQuantity * candyStoreInstance.getInventory().get(idUserEntered).getPrice();
+                 newCashRegister.setCurrentCashRegisterBalance(updatingBalance);
+//item . add to list ,
+                        //we need to make a list in custoemr cart
 
-                        candyTest.getInventory().get(idUserEntered).setQuantity(getQuantityOfKey - userQuantity);
+
+                        candyStoreInstance.getInventory().get(idUserEntered).setQuantity(getQuantityOfKey - userQuantity);
+
                     }
             }
 
@@ -157,9 +167,10 @@ public class ApplicationCLI {
         }
 
         public void showInventory () {
-            Map<String, CandyItem> inventory = candyTest.getInventory();
+            Map<String, CandyItem> inventory = candyStoreInstance.getInventory();
             menu.displayInventory(inventory);
         }
-
+        //what we do we want to add to the list
+    //we can start by adding product name and product quantity selected
 
     }

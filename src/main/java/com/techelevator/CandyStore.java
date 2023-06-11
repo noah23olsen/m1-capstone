@@ -23,8 +23,6 @@ public class CandyStore {
 
 
     public void showInventory(){
-
-
     }
     private Map <String, CandyItem> inventory;
     public Map<String, CandyItem> getInventory() {

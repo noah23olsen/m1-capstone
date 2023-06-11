@@ -5,7 +5,7 @@ public abstract class CandyItem { //should abstract because candy does not mean 
     private double price;
     private String id;
 
-    private int quantity = 25;
+    private int quantity = 100;
 
     public int getQuantity() {
         return quantity;

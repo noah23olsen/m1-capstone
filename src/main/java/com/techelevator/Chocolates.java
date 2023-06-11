@@ -7,4 +7,5 @@ public class Chocolates extends CandyItem {
     public String getCandyType() {
         return "Chocolates";
     }
+
 }
