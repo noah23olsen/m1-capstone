@@ -116,6 +116,7 @@ public class ApplicationCLI {
     }
 
     public void userSelectTwoForMakeSaleMenu(){
+        
         showInventory();
 
         String idUserEntered = menu.promptUserToEnterAnId().toUpperCase();
